@@ -16,10 +16,12 @@ app.use(session({
 const authRoutes = require('./routes/auth');
 const habitRoutes = require('./routes/habits');
 const logRoutes = require('./routes/logs');
+const statsRoutes = require('./routes/stats');
 
 app.use('/auth', authRoutes);
 app.use('/habits', habitRoutes);
 app.use('/logs', logRoutes);
+app.use('/stats', statsRoutes);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'login.html'));

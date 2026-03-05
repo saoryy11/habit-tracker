@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Stats</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>📊 My Habit Stats</h1>
+  <a href="/dashboard.html">← Back to Dashboard</a>
+  <br/><br/>
+
+  <canvas id="myChart" width="400" height="200"></canvas>
+
+  <script>
+    async function loadStats() {
+      const stats = await fetch('/stats').then(r => r.json());
+
+      const labels = stats.map(s => s.name);
+      const data = stats.map(s => s.total_logs);
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Total Check-ins',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+    loadStats();
+  </script>
+</body>
+</html>
