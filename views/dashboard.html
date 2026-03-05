@@ -14,20 +14,29 @@
   <ul id="habits-list"></ul>
 
   <script>
-    fetch('/habits')
-      .then(res => res.json())
-      .then(habits => {
-        const list = document.getElementById('habits-list');
-        habits.forEach(habit => {
-          list.innerHTML += `
-            <li>
-              ${habit.name}
-              <form action="/habits/delete/${habit.id}" method="POST" style="display:inline">
-                <button type="submit">Delete</button>
-              </form>
-            </li>`;
-        });
+    async function loadHabits() {
+      const habits = await fetch('/habits').then(r => r.json());
+      const logs = await fetch('/logs/today').then(r => r.json());
+      const loggedIds = logs.map(l => l.habit_id);
+
+      const list = document.getElementById('habits-list');
+      list.innerHTML = '';
+      habits.forEach(habit => {
+        const done = loggedIds.includes(habit.id);
+        list.innerHTML += `
+          <li>
+            ${habit.name} ${done ? '✅' : ''}
+            ${!done ? `
+              <form action="/logs/check/${habit.id}" method="POST" style="display:inline">
+                <button type="submit">Check in</button>
+              </form>` : ''}
+            <form action="/habits/delete/${habit.id}" method="POST" style="display:inline">
+              <button type="submit">Delete</button>
+            </form>
+          </li>`;
       });
+    }
+    loadHabits();
   </script>
 </body>
 </html>

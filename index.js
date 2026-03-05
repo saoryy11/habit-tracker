@@ -15,9 +15,11 @@ app.use(session({
 
 const authRoutes = require('./routes/auth');
 const habitRoutes = require('./routes/habits');
+const logRoutes = require('./routes/logs');
 
 app.use('/auth', authRoutes);
 app.use('/habits', habitRoutes);
+app.use('/logs', logRoutes);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'login.html'));
