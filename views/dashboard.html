@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>My Habits</h1>
+
+  <form action="/habits/add" method="POST">
+    <input type="text" name="name" placeholder="New habit name" required />
+    <button type="submit">Add Habit</button>
+  </form>
+
+  <ul id="habits-list"></ul>
+
+  <script>
+    fetch('/habits')
+      .then(res => res.json())
+      .then(habits => {
+        const list = document.getElementById('habits-list');
+        habits.forEach(habit => {
+          list.innerHTML += `
+            <li>
+              ${habit.name}
+              <form action="/habits/delete/${habit.id}" method="POST" style="display:inline">
+                <button type="submit">Delete</button>
+              </form>
+            </li>`;
+        });
+      });
+  </script>
+</body>
+</html>
