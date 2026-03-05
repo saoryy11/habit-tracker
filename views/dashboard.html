@@ -25,7 +25,9 @@
         const done = loggedIds.includes(habit.id);
         list.innerHTML += `
           <li>
-            ${habit.name} ${done ? '✅' : ''}
+            <strong>${habit.name}</strong>
+            🔥 Streak: ${habit.streak} days
+            ${done ? '✅ Done today!' : ''}
             ${!done ? `
               <form action="/logs/check/${habit.id}" method="POST" style="display:inline">
                 <button type="submit">Check in</button>
